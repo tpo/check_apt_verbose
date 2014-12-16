@@ -1,0 +1,10 @@
+#!/bin/sh
+tmp=$( mktemp )
+
+/usr/lib/nagios/plugins/check_apt -v "$@" 1>"$tmp"
+exit_code=$?
+
+cat "$tmp"| grep "^APT\|^Inst" | tac
+
+rm "$tmp"
+exit $exit_code
